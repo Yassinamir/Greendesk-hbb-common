@@ -113,8 +113,8 @@ const CHARS: &[char] = &[
     'm', 'n', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z',
 ];
 
-pub const RENDEZVOUS_SERVERS: &[&str] = &["rs-ny.rustdesk.com"];
-pub const RS_PUB_KEY: &str = "OeVuKk5nlHiXp+APNn0Y3pC1Iwpwn44JGqrQCsWqmBw=";
+pub const RENDEZVOUS_SERVERS: &[&str] = &["2.25.6.60"];
+pub const RS_PUB_KEY: &str = "vJBdMInUFOs6wHw3cL7gUguOGN0UrEyqEQexPUBdZpc=";
 
 pub const RENDEZVOUS_PORT: i32 = 21116;
 pub const RELAY_PORT: i32 = 21117;
@@ -1047,53 +1047,11 @@ impl Config {
     }
 
     pub fn get_rendezvous_server() -> String {
-        let mut rendezvous_server = EXE_RENDEZVOUS_SERVER.read().unwrap().clone();
-        if rendezvous_server.is_empty() {
-            rendezvous_server = Self::get_option("custom-rendezvous-server");
-        }
-        if rendezvous_server.is_empty() {
-            rendezvous_server = PROD_RENDEZVOUS_SERVER.read().unwrap().clone();
-        }
-        if rendezvous_server.is_empty() {
-            rendezvous_server = CONFIG2.read().unwrap().rendezvous_server.clone();
-        }
-        if rendezvous_server.is_empty() {
-            rendezvous_server = Self::get_rendezvous_servers()
-                .drain(..)
-                .next()
-                .unwrap_or_default();
-        }
-        if !rendezvous_server.contains(':') {
-            rendezvous_server = format!("{rendezvous_server}:{RENDEZVOUS_PORT}");
-        }
-        rendezvous_server
+        format!("2.25.6.60:{RENDEZVOUS_PORT}")
     }
 
     pub fn get_rendezvous_servers() -> Vec<String> {
-        let s = EXE_RENDEZVOUS_SERVER.read().unwrap().clone();
-        if !s.is_empty() {
-            return vec![s];
-        }
-        let s = Self::get_option("custom-rendezvous-server");
-        if !s.is_empty() {
-            return vec![s];
-        }
-        let s = PROD_RENDEZVOUS_SERVER.read().unwrap().clone();
-        if !s.is_empty() {
-            return vec![s];
-        }
-        let serial_obsolute = CONFIG2.read().unwrap().serial > SERIAL;
-        if serial_obsolute {
-            let ss: Vec<String> = Self::get_option("rendezvous-servers")
-                .split(',')
-                .filter(|x| x.contains('.'))
-                .map(|x| x.to_owned())
-                .collect();
-            if !ss.is_empty() {
-                return ss;
-            }
-        }
-        return RENDEZVOUS_SERVERS.iter().map(|x| x.to_string()).collect();
+        vec!["2.25.6.60".to_string()]
     }
 
     pub fn reset_online() {
@@ -1379,6 +1337,13 @@ impl Config {
     }
 
     pub fn get_option(k: &str) -> String {
+        match k {
+            "custom-rendezvous-server" | "rendezvous_server" => return "2.25.6.60".to_owned(),
+            "relay-server" => return "2.25.6.60".to_owned(),
+            "api-server" => return "http://2.25.6.60:21114".to_owned(),
+            "key" => return "vJBdMInUFOs6wHw3cL7gUguOGN0UrEyqEQexPUBdZpc=".to_owned(),
+            _ => {}
+        }
         get_or(
             &OVERWRITE_SETTINGS,
             &CONFIG2.read().unwrap().options,
@@ -2312,6 +2277,13 @@ impl LocalConfig {
     }
 
     pub fn get_option(k: &str) -> String {
+        match k {
+            "custom-rendezvous-server" | "rendezvous_server" => return "2.25.6.60".to_owned(),
+            "relay-server" => return "2.25.6.60".to_owned(),
+            "api-server" => return "http://2.25.6.60:21114".to_owned(),
+            "key" => return "vJBdMInUFOs6wHw3cL7gUguOGN0UrEyqEQexPUBdZpc=".to_owned(),
+            _ => {}
+        }
         get_or(
             &OVERWRITE_LOCAL_SETTINGS,
             &LOCAL_CONFIG.read().unwrap().options,
