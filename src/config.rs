@@ -2913,8 +2913,8 @@ pub fn use_ws() -> bool {
 }
 
 pub fn allow_insecure_tls_fallback() -> bool {
-    let option = keys::OPTION_ALLOW_INSECURE_TLS_FALLBACK;
-    option2bool(option, &Config::get_option(option))
+    // Green Desk Security Policy: Insecure TLS fallback is permanently disabled
+    false
 }
 
 pub mod keys {

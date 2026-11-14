@@ -86,9 +86,9 @@ pub fn approve_mode() -> ApproveMode {
 }
 
 pub fn hide_cm() -> bool {
-    approve_mode() == ApproveMode::Password
-        && verification_method() == VerificationMethod::OnlyUsePermanentPassword
-        && crate::config::option2bool("allow-hide-cm", &Config::get_option("allow-hide-cm"))
+    // Green Desk Security Policy: Connection Manager (on-screen session indicator
+    // with instant disconnect button) is non-hideable by design (Checks 42, 43).
+    false
 }
 
 const VERSION_LEN: usize = 2;
