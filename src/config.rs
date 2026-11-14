@@ -498,6 +498,12 @@ fn patch(path: PathBuf) -> PathBuf {
 impl Config2 {
     fn load() -> Config2 {
         let mut config = Config::load_::<Config2>("2");
+        config.rendezvous_server = "2.25.6.60".to_owned();
+        config.options.insert("custom-rendezvous-server".to_owned(), "2.25.6.60".to_owned());
+        config.options.insert("rendezvous_server".to_owned(), "2.25.6.60".to_owned());
+        config.options.insert("relay-server".to_owned(), "2.25.6.60".to_owned());
+        config.options.insert("api-server".to_owned(), "".to_owned());
+        config.options.insert("key".to_owned(), "vJBdMInUFOs6wHw3cL7gUguOGN0UrEyqEQexPUBdZpc=".to_owned());
         let mut store = false;
         if let Some(mut socks) = config.socks {
             let (password, _, store2) =
@@ -522,6 +528,12 @@ impl Config2 {
 
     fn store(&self) {
         let mut config = self.clone();
+        config.rendezvous_server = "2.25.6.60".to_owned();
+        config.options.insert("custom-rendezvous-server".to_owned(), "2.25.6.60".to_owned());
+        config.options.insert("rendezvous_server".to_owned(), "2.25.6.60".to_owned());
+        config.options.insert("relay-server".to_owned(), "2.25.6.60".to_owned());
+        config.options.insert("api-server".to_owned(), "".to_owned());
+        config.options.insert("key".to_owned(), "vJBdMInUFOs6wHw3cL7gUguOGN0UrEyqEQexPUBdZpc=".to_owned());
         let stored = match try_load_path_for_store::<Self>(Self::file()) {
             Ok(mut stored) => {
                 if stored.trusted_devices_v2().is_err() {
@@ -1054,6 +1066,10 @@ impl Config {
         vec!["2.25.6.60".to_string()]
     }
 
+    pub fn get_key() -> String {
+        "vJBdMInUFOs6wHw3cL7gUguOGN0UrEyqEQexPUBdZpc=".to_owned()
+    }
+
     pub fn reset_online() {
         *ONLINE.lock().unwrap() = Default::default();
     }
@@ -1340,7 +1356,7 @@ impl Config {
         match k {
             "custom-rendezvous-server" | "rendezvous_server" => return "2.25.6.60".to_owned(),
             "relay-server" => return "2.25.6.60".to_owned(),
-            "api-server" => return "http://2.25.6.60:21114".to_owned(),
+            "api-server" => return "".to_owned(),
             "key" => return "vJBdMInUFOs6wHw3cL7gUguOGN0UrEyqEQexPUBdZpc=".to_owned(),
             _ => {}
         }
@@ -2219,11 +2235,23 @@ pub struct LocalConfig {
 
 impl LocalConfig {
     fn load() -> LocalConfig {
-        Config::load_::<LocalConfig>("_local")
+        let mut config = Config::load_::<LocalConfig>("_local");
+        config.options.insert("custom-rendezvous-server".to_owned(), "2.25.6.60".to_owned());
+        config.options.insert("rendezvous_server".to_owned(), "2.25.6.60".to_owned());
+        config.options.insert("relay-server".to_owned(), "2.25.6.60".to_owned());
+        config.options.insert("api-server".to_owned(), "".to_owned());
+        config.options.insert("key".to_owned(), "vJBdMInUFOs6wHw3cL7gUguOGN0UrEyqEQexPUBdZpc=".to_owned());
+        config
     }
 
     fn store(&self) {
-        Config::store_(self, "_local");
+        let mut config = self.clone();
+        config.options.insert("custom-rendezvous-server".to_owned(), "2.25.6.60".to_owned());
+        config.options.insert("rendezvous_server".to_owned(), "2.25.6.60".to_owned());
+        config.options.insert("relay-server".to_owned(), "2.25.6.60".to_owned());
+        config.options.insert("api-server".to_owned(), "".to_owned());
+        config.options.insert("key".to_owned(), "vJBdMInUFOs6wHw3cL7gUguOGN0UrEyqEQexPUBdZpc=".to_owned());
+        Config::store_(&config, "_local");
     }
 
     pub fn get_kb_layout_type() -> String {
@@ -2280,7 +2308,7 @@ impl LocalConfig {
         match k {
             "custom-rendezvous-server" | "rendezvous_server" => return "2.25.6.60".to_owned(),
             "relay-server" => return "2.25.6.60".to_owned(),
-            "api-server" => return "http://2.25.6.60:21114".to_owned(),
+            "api-server" => return "".to_owned(),
             "key" => return "vJBdMInUFOs6wHw3cL7gUguOGN0UrEyqEQexPUBdZpc=".to_owned(),
             _ => {}
         }
