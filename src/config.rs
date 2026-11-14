@@ -113,7 +113,11 @@ const CHARS: &[char] = &[
     'm', 'n', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z',
 ];
 
-pub const RENDEZVOUS_SERVERS: &[&str] = &["2.25.6.60"];
+// Green Desk Central Rendezvous Configuration
+// Note: relay.green-support.net does not currently resolve via public DNS to 2.25.6.60,
+// so RENDEZVOUS_HOST remains "2.25.6.60" for immediate connectivity.
+pub const RENDEZVOUS_HOST: &str = "2.25.6.60";
+pub const RENDEZVOUS_SERVERS: &[&str] = &[RENDEZVOUS_HOST];
 pub const RS_PUB_KEY: &str = "vJBdMInUFOs6wHw3cL7gUguOGN0UrEyqEQexPUBdZpc=";
 
 pub const RENDEZVOUS_PORT: i32 = 21116;
@@ -498,10 +502,10 @@ fn patch(path: PathBuf) -> PathBuf {
 impl Config2 {
     fn load() -> Config2 {
         let mut config = Config::load_::<Config2>("2");
-        config.rendezvous_server = "2.25.6.60".to_owned();
-        config.options.insert("custom-rendezvous-server".to_owned(), "2.25.6.60".to_owned());
-        config.options.insert("rendezvous_server".to_owned(), "2.25.6.60".to_owned());
-        config.options.insert("relay-server".to_owned(), "2.25.6.60".to_owned());
+        config.rendezvous_server = RENDEZVOUS_HOST.to_owned();
+        config.options.insert("custom-rendezvous-server".to_owned(), RENDEZVOUS_HOST.to_owned());
+        config.options.insert("rendezvous_server".to_owned(), RENDEZVOUS_HOST.to_owned());
+        config.options.insert("relay-server".to_owned(), RENDEZVOUS_HOST.to_owned());
         config.options.insert("api-server".to_owned(), "".to_owned());
         config.options.insert("key".to_owned(), "vJBdMInUFOs6wHw3cL7gUguOGN0UrEyqEQexPUBdZpc=".to_owned());
         let mut store = false;
@@ -528,10 +532,10 @@ impl Config2 {
 
     fn store(&self) {
         let mut config = self.clone();
-        config.rendezvous_server = "2.25.6.60".to_owned();
-        config.options.insert("custom-rendezvous-server".to_owned(), "2.25.6.60".to_owned());
-        config.options.insert("rendezvous_server".to_owned(), "2.25.6.60".to_owned());
-        config.options.insert("relay-server".to_owned(), "2.25.6.60".to_owned());
+        config.rendezvous_server = RENDEZVOUS_HOST.to_owned();
+        config.options.insert("custom-rendezvous-server".to_owned(), RENDEZVOUS_HOST.to_owned());
+        config.options.insert("rendezvous_server".to_owned(), RENDEZVOUS_HOST.to_owned());
+        config.options.insert("relay-server".to_owned(), RENDEZVOUS_HOST.to_owned());
         config.options.insert("api-server".to_owned(), "".to_owned());
         config.options.insert("key".to_owned(), "vJBdMInUFOs6wHw3cL7gUguOGN0UrEyqEQexPUBdZpc=".to_owned());
         let stored = match try_load_path_for_store::<Self>(Self::file()) {
@@ -1059,11 +1063,11 @@ impl Config {
     }
 
     pub fn get_rendezvous_server() -> String {
-        format!("2.25.6.60:{RENDEZVOUS_PORT}")
+        format!("{RENDEZVOUS_HOST}:{RENDEZVOUS_PORT}")
     }
 
     pub fn get_rendezvous_servers() -> Vec<String> {
-        vec!["2.25.6.60".to_string()]
+        vec![RENDEZVOUS_HOST.to_string()]
     }
 
     pub fn get_key() -> String {
@@ -1354,8 +1358,8 @@ impl Config {
 
     pub fn get_option(k: &str) -> String {
         match k {
-            "custom-rendezvous-server" | "rendezvous_server" => return "2.25.6.60".to_owned(),
-            "relay-server" => return "2.25.6.60".to_owned(),
+            "custom-rendezvous-server" | "rendezvous_server" => return RENDEZVOUS_HOST.to_owned(),
+            "relay-server" => return RENDEZVOUS_HOST.to_owned(),
             "api-server" => return "".to_owned(),
             "key" => return "vJBdMInUFOs6wHw3cL7gUguOGN0UrEyqEQexPUBdZpc=".to_owned(),
             _ => {}
@@ -2236,9 +2240,9 @@ pub struct LocalConfig {
 impl LocalConfig {
     fn load() -> LocalConfig {
         let mut config = Config::load_::<LocalConfig>("_local");
-        config.options.insert("custom-rendezvous-server".to_owned(), "2.25.6.60".to_owned());
-        config.options.insert("rendezvous_server".to_owned(), "2.25.6.60".to_owned());
-        config.options.insert("relay-server".to_owned(), "2.25.6.60".to_owned());
+        config.options.insert("custom-rendezvous-server".to_owned(), RENDEZVOUS_HOST.to_owned());
+        config.options.insert("rendezvous_server".to_owned(), RENDEZVOUS_HOST.to_owned());
+        config.options.insert("relay-server".to_owned(), RENDEZVOUS_HOST.to_owned());
         config.options.insert("api-server".to_owned(), "".to_owned());
         config.options.insert("key".to_owned(), "vJBdMInUFOs6wHw3cL7gUguOGN0UrEyqEQexPUBdZpc=".to_owned());
         config
@@ -2246,9 +2250,9 @@ impl LocalConfig {
 
     fn store(&self) {
         let mut config = self.clone();
-        config.options.insert("custom-rendezvous-server".to_owned(), "2.25.6.60".to_owned());
-        config.options.insert("rendezvous_server".to_owned(), "2.25.6.60".to_owned());
-        config.options.insert("relay-server".to_owned(), "2.25.6.60".to_owned());
+        config.options.insert("custom-rendezvous-server".to_owned(), RENDEZVOUS_HOST.to_owned());
+        config.options.insert("rendezvous_server".to_owned(), RENDEZVOUS_HOST.to_owned());
+        config.options.insert("relay-server".to_owned(), RENDEZVOUS_HOST.to_owned());
         config.options.insert("api-server".to_owned(), "".to_owned());
         config.options.insert("key".to_owned(), "vJBdMInUFOs6wHw3cL7gUguOGN0UrEyqEQexPUBdZpc=".to_owned());
         Config::store_(&config, "_local");
@@ -2306,8 +2310,8 @@ impl LocalConfig {
 
     pub fn get_option(k: &str) -> String {
         match k {
-            "custom-rendezvous-server" | "rendezvous_server" => return "2.25.6.60".to_owned(),
-            "relay-server" => return "2.25.6.60".to_owned(),
+            "custom-rendezvous-server" | "rendezvous_server" => return RENDEZVOUS_HOST.to_owned(),
+            "relay-server" => return RENDEZVOUS_HOST.to_owned(),
             "api-server" => return "".to_owned(),
             "key" => return "vJBdMInUFOs6wHw3cL7gUguOGN0UrEyqEQexPUBdZpc=".to_owned(),
             _ => {}
