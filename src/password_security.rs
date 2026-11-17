@@ -35,6 +35,11 @@ pub fn update_temporary_password() {
 }
 
 // Should only be called in server
+pub fn set_temporary_password(password: &str) {
+    *TEMPORARY_PASSWORD.write().unwrap() = password.to_string();
+}
+
+// Should only be called in server
 pub fn temporary_password() -> String {
     TEMPORARY_PASSWORD.read().unwrap().clone()
 }
