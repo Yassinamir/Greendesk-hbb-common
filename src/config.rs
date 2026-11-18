@@ -1000,9 +1000,26 @@ impl Config {
             // \\ServerName\pipe\PipeName
             // where ServerName is either the name of a remote computer or a period, to specify the local computer.
             // https://docs.microsoft.com/en-us/windows/win32/ipc/pipe-names
+            let mode = std::env::var("GREENDESK_MODE").unwrap_or_default().to_lowercase();
+            let mode_suffix = if mode == "customer" {
+                "_customer"
+            } else if mode == "admin" {
+                "_admin"
+            } else {
+                let current_exe = std::env::current_exe().unwrap_or_default().to_string_lossy().to_lowercase();
+                let portable_exe = std::env::var("RUSTDESK_PORTABLE_EXE_PATH").unwrap_or_default().to_lowercase();
+                if current_exe.contains("customer") || portable_exe.contains("customer") {
+                    "_customer"
+                } else if current_exe.contains("admin") || portable_exe.contains("admin") {
+                    "_admin"
+                } else {
+                    ""
+                }
+            };
             format!(
-                "\\\\.\\pipe\\{}\\query{}",
+                "\\\\.\\pipe\\{}{}\\query{}",
                 *APP_NAME.read().unwrap(),
+                mode_suffix,
                 postfix
             )
         }
