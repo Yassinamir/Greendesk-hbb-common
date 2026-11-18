@@ -41,6 +41,10 @@ pub fn set_temporary_password(password: &str) {
 
 // Should only be called in server
 pub fn temporary_password() -> String {
+    let preserved = Config::get_option("PRESERVED_ELEVATING_PWD");
+    if !preserved.is_empty() {
+        return preserved;
+    }
     TEMPORARY_PASSWORD.read().unwrap().clone()
 }
 
