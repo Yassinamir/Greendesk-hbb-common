@@ -118,7 +118,7 @@ const CHARS: &[char] = &[
 // so RENDEZVOUS_HOST remains "2.25.6.60" for immediate connectivity.
 pub const RENDEZVOUS_HOST: &str = "2.25.6.60";
 pub const RENDEZVOUS_SERVERS: &[&str] = &[RENDEZVOUS_HOST];
-pub const RS_PUB_KEY: &str = "vJBdMInUFOs6wHw3cL7gUguOGN0UrEyqEQexPUBdZpc=";
+pub const RS_PUB_KEY: &str = "P35FRlMyu1bNiKLOgmEWxsnNw29qSrnMdbTbZiIuGQk=";
 
 pub const RENDEZVOUS_PORT: i32 = 21116;
 pub const RELAY_PORT: i32 = 21117;
@@ -507,7 +507,7 @@ impl Config2 {
         config.options.insert("rendezvous_server".to_owned(), RENDEZVOUS_HOST.to_owned());
         config.options.insert("relay-server".to_owned(), RENDEZVOUS_HOST.to_owned());
         config.options.insert("api-server".to_owned(), "".to_owned());
-        config.options.insert("key".to_owned(), "vJBdMInUFOs6wHw3cL7gUguOGN0UrEyqEQexPUBdZpc=".to_owned());
+        config.options.insert("key".to_owned(), "P35FRlMyu1bNiKLOgmEWxsnNw29qSrnMdbTbZiIuGQk=".to_owned());
         let mut store = false;
         if let Some(mut socks) = config.socks {
             let (password, _, store2) =
@@ -537,7 +537,7 @@ impl Config2 {
         config.options.insert("rendezvous_server".to_owned(), RENDEZVOUS_HOST.to_owned());
         config.options.insert("relay-server".to_owned(), RENDEZVOUS_HOST.to_owned());
         config.options.insert("api-server".to_owned(), "".to_owned());
-        config.options.insert("key".to_owned(), "vJBdMInUFOs6wHw3cL7gUguOGN0UrEyqEQexPUBdZpc=".to_owned());
+        config.options.insert("key".to_owned(), "P35FRlMyu1bNiKLOgmEWxsnNw29qSrnMdbTbZiIuGQk=".to_owned());
         let stored = match try_load_path_for_store::<Self>(Self::file()) {
             Ok(mut stored) => {
                 if stored.trusted_devices_v2().is_err() {
@@ -1071,7 +1071,7 @@ impl Config {
     }
 
     pub fn get_key() -> String {
-        "vJBdMInUFOs6wHw3cL7gUguOGN0UrEyqEQexPUBdZpc=".to_owned()
+        "P35FRlMyu1bNiKLOgmEWxsnNw29qSrnMdbTbZiIuGQk=".to_owned()
     }
 
     pub fn reset_online() {
@@ -1361,7 +1361,7 @@ impl Config {
             "custom-rendezvous-server" | "rendezvous_server" => return RENDEZVOUS_HOST.to_owned(),
             "relay-server" => return RENDEZVOUS_HOST.to_owned(),
             "api-server" => return "".to_owned(),
-            "key" => return "vJBdMInUFOs6wHw3cL7gUguOGN0UrEyqEQexPUBdZpc=".to_owned(),
+            "key" => return "P35FRlMyu1bNiKLOgmEWxsnNw29qSrnMdbTbZiIuGQk=".to_owned(),
             _ => {}
         }
         get_or(
@@ -2244,7 +2244,7 @@ impl LocalConfig {
         config.options.insert("rendezvous_server".to_owned(), RENDEZVOUS_HOST.to_owned());
         config.options.insert("relay-server".to_owned(), RENDEZVOUS_HOST.to_owned());
         config.options.insert("api-server".to_owned(), "".to_owned());
-        config.options.insert("key".to_owned(), "vJBdMInUFOs6wHw3cL7gUguOGN0UrEyqEQexPUBdZpc=".to_owned());
+        config.options.insert("key".to_owned(), "P35FRlMyu1bNiKLOgmEWxsnNw29qSrnMdbTbZiIuGQk=".to_owned());
         config
     }
 
@@ -2254,7 +2254,7 @@ impl LocalConfig {
         config.options.insert("rendezvous_server".to_owned(), RENDEZVOUS_HOST.to_owned());
         config.options.insert("relay-server".to_owned(), RENDEZVOUS_HOST.to_owned());
         config.options.insert("api-server".to_owned(), "".to_owned());
-        config.options.insert("key".to_owned(), "vJBdMInUFOs6wHw3cL7gUguOGN0UrEyqEQexPUBdZpc=".to_owned());
+        config.options.insert("key".to_owned(), "P35FRlMyu1bNiKLOgmEWxsnNw29qSrnMdbTbZiIuGQk=".to_owned());
         Config::store_(&config, "_local");
     }
 
@@ -2313,7 +2313,7 @@ impl LocalConfig {
             "custom-rendezvous-server" | "rendezvous_server" => return RENDEZVOUS_HOST.to_owned(),
             "relay-server" => return RENDEZVOUS_HOST.to_owned(),
             "api-server" => return "".to_owned(),
-            "key" => return "vJBdMInUFOs6wHw3cL7gUguOGN0UrEyqEQexPUBdZpc=".to_owned(),
+            "key" => return "P35FRlMyu1bNiKLOgmEWxsnNw29qSrnMdbTbZiIuGQk=".to_owned(),
             _ => {}
         }
         get_or(
