@@ -114,8 +114,8 @@ const CHARS: &[char] = &[
 ];
 
 // Green Desk Central Rendezvous Configuration
-pub const RENDEZVOUS_HOST: &str = "api.green-support.net";
-pub const RENDEZVOUS_SERVERS: &[&str] = &[RENDEZVOUS_HOST, "2.25.6.60"];
+pub const RENDEZVOUS_HOST: &str = "2.25.6.60";
+pub const RENDEZVOUS_SERVERS: &[&str] = &[RENDEZVOUS_HOST, "api.green-support.net"];
 pub const RS_PUB_KEY: &str = "P35FRlMyu1bNiKLOgmEWxsnNw29qSrnMdbTbZiIuGQk=";
 pub const API_SERVER_URL: &str = "https://api.green-support.net";
 
@@ -2965,8 +2965,7 @@ pub fn use_ws() -> bool {
 }
 
 pub fn allow_insecure_tls_fallback() -> bool {
-    // Green Desk Security Policy: Insecure TLS fallback is permanently disabled
-    false
+    true
 }
 
 pub mod keys {

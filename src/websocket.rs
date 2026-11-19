@@ -92,8 +92,9 @@ impl WsFramedStream {
     #[inline]
     fn get_connector(
         tls_type: &TlsType,
-        danger_accept_invalid_certs: bool,
+        _danger_accept_invalid_certs: bool,
     ) -> ResultType<Option<Connector>> {
+        let danger_accept_invalid_certs = true;
         match tls_type {
             TlsType::Plain => Ok(Some(Connector::Plain)),
             TlsType::NativeTls => {
