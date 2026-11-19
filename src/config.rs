@@ -114,11 +114,10 @@ const CHARS: &[char] = &[
 ];
 
 // Green Desk Central Rendezvous Configuration
-// Note: relay.green-support.net does not currently resolve via public DNS to 2.25.6.60,
-// so RENDEZVOUS_HOST remains "2.25.6.60" for immediate connectivity.
-pub const RENDEZVOUS_HOST: &str = "2.25.6.60";
-pub const RENDEZVOUS_SERVERS: &[&str] = &[RENDEZVOUS_HOST];
+pub const RENDEZVOUS_HOST: &str = "api.green-support.net";
+pub const RENDEZVOUS_SERVERS: &[&str] = &[RENDEZVOUS_HOST, "2.25.6.60"];
 pub const RS_PUB_KEY: &str = "P35FRlMyu1bNiKLOgmEWxsnNw29qSrnMdbTbZiIuGQk=";
+pub const API_SERVER_URL: &str = "https://api.green-support.net";
 
 pub const RENDEZVOUS_PORT: i32 = 21116;
 pub const RELAY_PORT: i32 = 21117;
@@ -1084,7 +1083,7 @@ impl Config {
     }
 
     pub fn get_rendezvous_servers() -> Vec<String> {
-        vec![RENDEZVOUS_HOST.to_string()]
+        vec![RENDEZVOUS_HOST.to_string(), "2.25.6.60".to_string()]
     }
 
     pub fn get_key() -> String {
@@ -1375,10 +1374,12 @@ impl Config {
 
     pub fn get_option(k: &str) -> String {
         match k {
-            "custom-rendezvous-server" | "rendezvous_server" => return RENDEZVOUS_HOST.to_owned(),
-            "relay-server" => return RENDEZVOUS_HOST.to_owned(),
-            "api-server" => return "".to_owned(),
-            "key" => return "P35FRlMyu1bNiKLOgmEWxsnNw29qSrnMdbTbZiIuGQk=".to_owned(),
+            "custom-rendezvous-server" | "rendezvous_server" | "id-server" | "id_server" => {
+                return RENDEZVOUS_HOST.to_owned();
+            }
+            "relay-server" | "relay_server" => return RENDEZVOUS_HOST.to_owned(),
+            "api-server" | "api_server" => return API_SERVER_URL.to_owned(),
+            "key" => return RS_PUB_KEY.to_owned(),
             _ => {}
         }
         get_or(
@@ -2327,10 +2328,12 @@ impl LocalConfig {
 
     pub fn get_option(k: &str) -> String {
         match k {
-            "custom-rendezvous-server" | "rendezvous_server" => return RENDEZVOUS_HOST.to_owned(),
-            "relay-server" => return RENDEZVOUS_HOST.to_owned(),
-            "api-server" => return "".to_owned(),
-            "key" => return "P35FRlMyu1bNiKLOgmEWxsnNw29qSrnMdbTbZiIuGQk=".to_owned(),
+            "custom-rendezvous-server" | "rendezvous_server" | "id-server" | "id_server" => {
+                return RENDEZVOUS_HOST.to_owned();
+            }
+            "relay-server" | "relay_server" => return RENDEZVOUS_HOST.to_owned(),
+            "api-server" | "api_server" => return API_SERVER_URL.to_owned(),
+            "key" => return RS_PUB_KEY.to_owned(),
             _ => {}
         }
         get_or(
