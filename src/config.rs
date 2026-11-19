@@ -945,8 +945,14 @@ impl Config {
             #[cfg(target_os = "macos")]
             let org = ORG.read().unwrap().clone();
             // /var/root for root
+            let app_name = APP_NAME.read().unwrap();
+            let app_name_str = if app_name.is_empty() || app_name.eq_ignore_ascii_case("rustdesk") {
+                "GreenSupportDesk"
+            } else {
+                app_name.as_str()
+            };
             if let Some(project) =
-                directories_next::ProjectDirs::from("", &org, &APP_NAME.read().unwrap())
+                directories_next::ProjectDirs::from("", &org, app_name_str)
             {
                 let mut path = patch(project.config_dir().to_path_buf());
                 path.push(p);
